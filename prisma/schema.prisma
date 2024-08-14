@@ -1,0 +1,153 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+ 
+generator client {
+  provider = "prisma-client-js"
+}
+ 
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  uNo      String         @unique
+  email         String?         
+  password      String
+  image         String?
+  Session       Session[]
+  Account       Account?
+  
+  role     Role    @default(STUDENT)
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Student {
+  uNo String @id  
+  name String
+  programId Int 
+
+  section Section
+  mail String
+  
+  classIds String?  
+  attendences Attendence[]
+  
+
+  
+  program   Program @relation(fields: [programId], references: [pId])
+ 
+}
+model Attendence{
+  Id Int @id @default(autoincrement()) 
+  classId String?  
+  uNo String  
+  Status Status 
+  date String?
+  section Section
+  students   Student? @relation(fields: [uNo], references: [uNo])
+}
+
+ 
+
+model Program {
+  pId Int @id  @default(autoincrement()) 
+  course String
+  specialization String
+  students     Student[]
+}
+
+model Classes {
+classId Int @id @default(autoincrement()) 
+subjectId String? @unique
+time String
+day String
+subject     Subject?
+
+}
+
+enum Status {
+  ABSENT
+  PRESENT
+}
+model Subject {
+   subjectId String  @id @default(cuid())
+   subjectName String
+   teacher String
+   teacherId String 
+   class    Classes? @relation( fields: [subjectId], references: [subjectId])
+}
+enum Section {
+  A
+  B
+  C
+}
+
+
+enum Role {
+  TEACHER
+  STUDENT
+}
+ 
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String  @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User?   @relation(fields: [userId], references: [id])
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+ 
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@index([userId])
+}
+ 
+model VerificationToken {
+  id        String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  
+  @@unique([identifier, token])
+}
+ 
+// Optional for WebAuthn support
+model Authenticator {
+  id                   String  @id @default(cuid())
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
