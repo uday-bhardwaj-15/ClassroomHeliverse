@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sheet";
 // import { authOptions } from '@app/api/auth/[...nextauth]/route';
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Role } from "@prisma/client";
 
 const Navbar = async () => {
@@ -24,8 +24,8 @@ const Navbar = async () => {
   //   setShowDropdown(!showDropdown);
   // };
 
-  const session = await getServerSession(authOptions);
-  const isTeacher = session?.user?.role === Role.TEACHER;
+  // const session = await getServerSession(authOptions);
+  const isTeacher = "TEACHER";
   return (
     <div>
       {" "}
@@ -33,113 +33,113 @@ const Navbar = async () => {
         <div className="flex items-center">
           <div className="block lg:hidden">
             {/* Mobile dropdown */}
-            {session && session.user?.username && (
-              <Sheet>
-                <SheetTrigger className="text-xl focus:outline-none">
-                  {" "}
-                  &#9776;
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>
-                      <div className="flex flex-col ">
-                        <Link
-                          href="/protected/dashboard"
-                          className="font-bold text-xl block mt-4"
-                        >
-                          Dashboard
-                        </Link>
-                        <Link href="/protected/students" className="block mt-2">
-                          Students
-                        </Link>
-                        <Link href="/protected/classes" className="block mt-2">
-                          Classes
-                        </Link>
-                        <Link href="/protected/fees" className="block mt-2">
-                          Fees
-                        </Link>
-                      </div>
-                    </SheetTitle>
-                  </SheetHeader>
-                </SheetContent>
-              </Sheet>
-            )}
+            {/* {session && session.user?.username && ( */}
+            <Sheet>
+              <SheetTrigger className="text-xl focus:outline-none">
+                {" "}
+                &#9776;
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>
+                    <div className="flex flex-col ">
+                      <Link
+                        href="/protected/dashboard"
+                        className="font-bold text-xl block mt-4"
+                      >
+                        Dashboard
+                      </Link>
+                      <Link href="/protected/students" className="block mt-2">
+                        Students
+                      </Link>
+                      <Link href="/protected/classes" className="block mt-2">
+                        Classes
+                      </Link>
+                      <Link href="/protected/fees" className="block mt-2">
+                        Fees
+                      </Link>
+                    </div>
+                  </SheetTitle>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
+            {/* )} */}
           </div>
           {/* desktop navbar */}
 
           <div className="hidden lg:flex items-center">
-            {session && session.user?.username ? (
-              <>
-                {!isTeacher && (
-                  <>
-                    <Link href="/dashboard" className="font-bold text-xl">
-                      Dashboard
-                    </Link>
+            {/* {session && session.user?.username ? ( */}
+            <>
+              {!isTeacher && (
+                <>
+                  <Link href="/dashboard" className="font-bold text-xl">
+                    Dashboard
+                  </Link>
 
-                    <Link href="/academic" className="ml-4">
-                      Academic
-                    </Link>
+                  <Link href="/academic" className="ml-4">
+                    Academic
+                  </Link>
 
-                    <Link href="/fees" className="ml-4">
-                      Fees
-                    </Link>
+                  <Link href="/fees" className="ml-4">
+                    Fees
+                  </Link>
 
-                    <Link href="/club" className="ml-4">
-                      Club/Committee
-                    </Link>
+                  <Link href="/club" className="ml-4">
+                    Club/Committee
+                  </Link>
 
-                    <Link href="/circular" className="ml-4">
-                      Circular
-                    </Link>
-                  </>
-                )}
+                  <Link href="/circular" className="ml-4">
+                    Circular
+                  </Link>
+                </>
+              )}
 
-                {isTeacher && (
-                  <>
-                    <Link
-                      href="/protected/dashboard"
-                      className="font-bold text-xl"
-                    >
-                      Dashboard
-                    </Link>
-                    <Link href="/protected/attendance" className="ml-4">
-                      Attendance
-                    </Link>
-                    <Link href="/protected/assignment" className="ml-4">
-                      Assignment
-                    </Link>
-                    <Link href="/protected/classes" className="ml-4">
-                      Classes
-                    </Link>
+              {isTeacher && (
+                <>
+                  <Link
+                    href="/protected/dashboard"
+                    className="font-bold text-xl"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link href="/protected/attendance" className="ml-4">
+                    Attendance
+                  </Link>
+                  <Link href="/protected/assignment" className="ml-4">
+                    Assignment
+                  </Link>
+                  <Link href="/protected/classes" className="ml-4">
+                    Classes
+                  </Link>
 
-                    <Link href="/protected/fees" className="ml-4">
-                      Fees
-                    </Link>
-                    <Link href="/protected/students" className="ml-4">
-                      Students
-                    </Link>
-                    <Link href="/protected/syllabus" className="ml-4">
-                      Syllabus
-                    </Link>
-                  </>
-                )}
-                <Link href="/auth/signout" className="ml-4">
-                  Sign out
-                </Link>
-                <p className="ml-4">
-                  <b>Signed in as {session.user?.username}</b>
-                </p>
-              </>
-            ) : (
-              <>
-                <Link href="/auth/signIn" className="ml-4">
-                  Sign in
-                </Link>
-                <Link href="/auth/signup " className="ml-4">
-                  Sign up
-                </Link>
-              </>
-            )}
+                  <Link href="/protected/fees" className="ml-4">
+                    Fees
+                  </Link>
+                  <Link href="/protected/students" className="ml-4">
+                    Students
+                  </Link>
+                  <Link href="/protected/syllabus" className="ml-4">
+                    Syllabus
+                  </Link>
+                </>
+              )}
+              <Link href="/auth/signout" className="ml-4">
+                Sign out
+              </Link>
+              <p className="ml-4">
+                {/* <b>Signed in as {session.user?.username}</b> */}
+              </p>
+            </>
+            : (
+            <>
+              <Link href="/auth/signIn" className="ml-4">
+                Sign in
+              </Link>
+              <Link href="/auth/signup " className="ml-4">
+                Sign up
+              </Link>
+            </>
+            {/* )} */}
           </div>
         </div>
 
