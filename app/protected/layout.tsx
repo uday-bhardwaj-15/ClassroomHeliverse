@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import React from "react";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+// import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 
 interface ProtectedLayoutProps {
@@ -8,15 +8,15 @@ interface ProtectedLayoutProps {
 }
 
 const ProtectedLayout = async ({ children }: ProtectedLayoutProps) => {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
 
   // if (!session || !session.user?.username) {
   //   redirect("http://localhost:3000/auth/signIn");
   // }
 
-  if (!session || session.user.role !== "TEACHER") {
-    return <div>You are not a Principal</div>;
-  }
+  // if (!session || session.user.role !== "TEACHER") {
+  //   return <div>You are not a Principal</div>;
+  // }
 
   return <>{children}</>;
 };
